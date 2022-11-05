@@ -1,7 +1,13 @@
 #include "ACMP.h"
 
 #include <cstdarg>
-
+void createDir(std::string dir) {
+#if defined _MSC_VER
+    _mkdir(dir.data());
+#elif defined __GNUC__
+    mkdir(dir.data(), 0777);
+#endif
+}
 void StringAppendV(std::string* dst, const char* format, va_list ap) {
   // First try with a small fixed size buffer.
   static const int kFixedBufferSize = 1024;
@@ -390,7 +396,7 @@ void StoreColorPlyFileBinaryPointCloud (const std::string &plyFilePath, const st
 
     //write data
 #pragma omp parallel for
-    for(size_t i = 0; i < pc.size(); i++) {
+    for(int i = 0; i < pc.size(); i++) {
         const PointList &p = pc[i];
         float3 X = p.coord;
         const float3 normal = p.normal;

@@ -1,0 +1,6 @@
+{
+    "cmake.configureArgs": [
+        "-DOpenCV_DIR=D:/softwares/opencv455/opencv/build"
+    ],
+    "cmake.configureOnEdit": false
+}

@@ -7,7 +7,13 @@ find_package(OpenCV REQUIRED )
 include_directories(${OpenCV_INCLUDE_DIRS})
 include_directories(.)
 
-set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 --use_fast_math --maxrregcount=128 --ptxas-options=-v -std=c++11 --compiler-options -Wall -gencode arch=compute_30,code=sm_30 -gencode arch=compute_52,code=sm_52)
+IF ((CUDA_VERSION VERSION_GREATER "10.0") OR (CUDA_VERSION VERSION_EQUAL "10.0"))
+    set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -D_USE_MATH_DEFINES --use_fast_math --maxrregcount=128 --ptxas-options=-v -std=c++11 --compiler-options -Wall -gencode arch=compute_75,code=sm_75 -gencode arch=compute_52,code=sm_52)
+ENDIF()
+IF ((CUDA_VERSION VERSION_GREATER "11.0") OR (CUDA_VERSION VERSION_EQUAL "11.0"))
+    set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3 -D_USE_MATH_DEFINES --use_fast_math --maxrregcount=128 --ptxas-options=-v -std=c++11 --compiler-options -Wall -gencode arch=compute_80,code=sm_80 -gencode arch=compute_52,code=sm_52)
+ENDIF()
+
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     add_definitions(-std=c++11)

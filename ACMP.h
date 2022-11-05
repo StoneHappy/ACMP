@@ -3,6 +3,16 @@
 
 #include "main.h"
 
+
+#if defined _MSC_VER
+#include <direct.h>
+#elif defined __GNUC__
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+
+void createDir(std::string dir);
+
 int readDepthDmb(const std::string file_path, cv::Mat_<float> &depth);
 int readNormalDmb(const std::string file_path, cv::Mat_<cv::Vec3f> &normal);
 int writeDepthDmb(const std::string file_path, const cv::Mat_<float> depth);
